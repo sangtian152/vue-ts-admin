@@ -2,7 +2,7 @@
   <div class="logo-contanier">
     <router-link to="/">
       <svg-icon v-if="logo" class="logo" :icon-class="logo"/>
-      <span class="title" :style="{color: titleColor}">
+      <span v-show="isShow" class="title" :style="{color: titleColor}">
         {{title}}
       </span>
     </router-link>
@@ -10,6 +10,7 @@
 </template>
 <script lang="ts">
   import {Component, Vue} from 'vue-property-decorator'
+  import { AppModule } from '@/store/modules/app'
   import setting from '@/config/settings'
   @Component({
     name: "Logo"
@@ -18,6 +19,12 @@
     private logo = setting.logo
     private title: string = "Vue-ts-admin"
     private titleColor: string = "#fff"
+    get sidebar() {
+      return AppModule.sidebar;
+    }
+    get isShow() {
+      return this.sidebar.opened;
+    }
   }
 </script>
 <style lang=scss scoped>

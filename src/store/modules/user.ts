@@ -1,8 +1,9 @@
 import {VuexModule, Module, Mutation, Action, getModule} from 'vuex-module-decorators'
 import store from '@/store'
 import { setAccessToken, getAccessToken, removeToken } from '@/utils/locStr'
-import { login, getUserInfo } from '@/api/users'
-
+import { login, getUserInfo, logout } from '@/api/users'
+import router, { resetRouter } from '@/router'
+import { TagsModule } from './tagsbar'
 export interface IUserState {
   token: string
   name: string
@@ -34,9 +35,22 @@ class User extends VuexModule implements IUserState {
 		const { username, password} = userInfo
 		const { data } = await login({username, password})
 		setAccessToken(data.accessToken)
-		this.SET_TOKEN(data.accessToken)
+    this.SET_TOKEN(data.accessToken)
+  }
+  @Action
+  public async LogOut() {
+    if (this.token === '') {
+      throw Error('LogOut: token is undefined!')
+    }
+    await logout()
+    removeToken()
+    resetRouter()
 
-	}
+    // Reset visited views and cached views
+    TagsModule.delAllViews()
+    this.SET_TOKEN('')
+    this.SET_ROLES([])
+  }
   @Action
   public ResetToken() {
     removeToken()

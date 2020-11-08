@@ -9,3 +9,5 @@
 export function isExternal(path: string) {
   return /^(https?:|mailto:|tel:)/.test(path)
 }
+
+export const isValidUsername = (str: string) => ['admin', 'editor'].indexOf(str.trim()) >= 0

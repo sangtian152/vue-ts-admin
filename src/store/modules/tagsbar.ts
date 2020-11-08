@@ -96,6 +96,10 @@ class Tagsbar extends VuexModule implements ITagsbarState {
       return item.meta && item.meta.affix;
     })
   }
+  @Mutation
+  private DEL_ALL_CACHED_ROUTES() {
+    this.cacheRoutes = []
+  }
   @Action
   public addRoute(view: ITagView) {
     this.ADD_CACHE_ROUTE(view)
@@ -132,6 +136,11 @@ class Tagsbar extends VuexModule implements ITagsbarState {
   public delAllVisitedRoutes(){
     this.DEL_ALL_VISITED_ROUTES()
     this.RESET_CACHE_ROUTES()
+  }
+  @Action
+  public delAllViews() {
+    this.DEL_ALL_VISITED_ROUTES()
+    this.DEL_ALL_CACHED_ROUTES()
   }
 }
 export const TagsModule = getModule(Tagsbar)

@@ -1,5 +1,5 @@
 <template>
-  <el-dropdown>
+  <el-dropdown @command="handleCommand">
     <div class="avatar-dropdown">
       <div class="user-avatar">
         <img :src="avatarUrl" alt="">
@@ -15,6 +15,7 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import { UserModule } from '@/store/modules/user'
 import Avatar from '@/assets/user.gif'
 @Component({
   name: "Avatar"
@@ -23,6 +24,21 @@ export default class extends Vue {
   private avatarUrl = Avatar
   get userName() {
     return 'admin'
+  }
+  private handleCommand(commond: any){
+    console.log(commond);
+    switch(commond) {
+      case "layout":
+        this.logout();
+        break;
+      default:
+        console.log(commond);
+        break;
+    }
+  }
+  private async logout() {
+    await UserModule.LogOut()
+    this.$router.push(`/login?redirect=${this.$route.fullPath}`)
   }
 }
 </script>

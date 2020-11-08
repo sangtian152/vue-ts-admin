@@ -26,21 +26,25 @@ router.beforeEach(async (to: Route, from: Route, next: any)=>{
       // If is login, redirect to the home page
       next({ path: '/' })
       NProgress.done()
-    }else {
+    } else {
       if (UserModule.roles.length === 0) {
         try {
           await UserModule.GetUserInfo()
           const roles = UserModule.roles
+          // Generate accessible routes map based on role
           RoutesModule.GenerateRoutes(roles);
+          // Dynamically add accessible routes
           router.addRoutes(RoutesModule.dynamicRoutes);
+          console.log(to)
           next({ ...to, replace: true })
-        }catch(err){
+        } catch(err) {
           UserModule.ResetToken();
           Message.error(err || "error")
           next(`/login?redirect=${to.path}`);
           NProgress.done()
         }
       } else {
+        console.log("next")
         next()
       }
     }

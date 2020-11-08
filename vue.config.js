@@ -13,6 +13,8 @@ function resolve(dir) {
 module.exports = {
   publicPath: process.env.NODE_ENV === 'production' ? '/vue-ts-admin/' : '/',
   lintOnSave: process.env.NODE_ENV === 'development',
+  outputDir: "docs",
+  assetsDir: "static",
   productionSourceMap: false,
   devServer: {
     port: devServerPort,

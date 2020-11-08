@@ -1,5 +1,5 @@
 <template>
-	<el-scrollbar  :class="{'side-bar-container':true, 'is-collapse': isCollapse }">
+	<el-scrollbar  :class="['side-bar-container', {'is-collapse': isCollapse }]">
     <logo v-show="showLogo" />
     <!--       :background-color="variables['menuBackground']"
       :text-color="variables['menuColor']"
